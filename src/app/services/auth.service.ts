@@ -15,7 +15,6 @@ export class AuthService {
   private chatStartCount = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) {
-    // Check if user is already logged in
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
       this.loggedInUser.next(JSON.parse(storedUser));

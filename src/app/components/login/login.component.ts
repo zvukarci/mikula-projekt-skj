@@ -37,7 +37,7 @@ export class LoginComponent {
 
       this.authService.login(firstName, lastName).subscribe((success) => {
         if (success) {
-          this.router.navigate(['/chats']); // Changed from '/chat' to '/chats'
+          this.router.navigate(['/chats']);
         } else {
           this.loginError = true;
         }

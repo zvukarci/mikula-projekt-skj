@@ -19,8 +19,6 @@ export class ChatService {
   startChat(participant: User): void {
     const currentUser = this.getCurrentUser();
     if (!currentUser) return;
-
-    // End previous chat if exists
     if (this.currentChat.value) {
       this.endChat();
     }
@@ -62,24 +60,17 @@ export class ChatService {
       timestamp: new Date(),
       isReply: false,
     };
-
-    // Add to chat history
     chat.messages.push(message);
 
-    // Add to all messages
     const allMsgs = this.allMessages.value;
     allMsgs.push(message);
     this.allMessages.next(allMsgs);
 
-    // Track character count
     this.authService.addCharacters(text.length);
-
-    // Send to server
     return this.http
       .post<HttpBinResponse>('https://httpbin.org/post', { text })
       .pipe(
         map((response) => {
-          // Create reply based on the response
           const replyLength =
             response.json.text.length +
             Number(response.origin.split('.').pop() || '0');
@@ -94,14 +85,11 @@ export class ChatService {
             isReply: true,
           };
 
-          // Add reply to chat
           chat.messages.push(reply);
 
-          // Add to all messages
           allMsgs.push(reply);
           this.allMessages.next(allMsgs);
 
-          // Track reply characters
           this.replyCharacters.next(
             this.replyCharacters.value + replyText.length
           );

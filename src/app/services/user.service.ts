@@ -37,16 +37,13 @@ export class UserService {
 
     return this.enrichUserData(user);
   }
-
   private enrichUserData(user: User): Observable<any> {
-    // Get gender data from genderize.io
     const genderRequest = this.http
       .get<GenderResponse>(`https://api.genderize.io?name=${user.firstName}`)
       .pipe(
         catchError(() => of({ gender: 'unknown', probability: 0, count: 0 }))
       );
 
-    // Get location data from zippopotam.us if postal code exists
     const zipRequest = user.address?.postalCode
       ? this.http
           .get<ZipResponse>(
@@ -64,7 +61,6 @@ export class UserService {
         ...user,
         testGender: genderData?.gender || 'unknown',
         homeState: zipData?.places?.[0]?.state || 'unknown',
-        // Include all required fields
         username: user.username,
         birthDate: user.birthDate,
         image: user.image,

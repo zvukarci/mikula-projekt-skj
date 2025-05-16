@@ -71,7 +71,7 @@ export class ChatsComponent implements OnInit {
     this.userService.getUsers().subscribe((users) => {
       this.users = users;
       this.filteredUsers = users;
-      this.filterUsers(); // Initialize filtered users
+      this.filterUsers();
     });
   }
 
@@ -161,7 +161,7 @@ export class ChatsComponent implements OnInit {
       }
     }
 
-    element.style.height = '44px'; // Reset height to default
+    element.style.height = '44px';
     element.style.height = `${Math.min(element.scrollHeight, 120)}px`; // Cap at 120px
   }
 }
